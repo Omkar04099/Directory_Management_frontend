@@ -43,61 +43,35 @@ const BusinessForm = ({ business, onClose, onUpdate }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-  
+
     try {
       let response;
       if (business) {
         response = await axios.put(`${API_URL}/${business.businessID}`, formData);
-        if (response.status === 200 || response.status === 204) {
-          toast.success("Business updated successfully!", { autoClose: 3000 });
-        }
+        toast.success("Business updated successfully!", { autoClose: 3000 });
       } else {
         response = await axios.post(API_URL, formData);
-        if (response.status === 201) {
-          toast.success("Business added successfully!", { autoClose: 3000 });
-        }
+        toast.success("Business added successfully!", { autoClose: 3000 });
       }
-  
-      onUpdate();
+
+      if (response.status === 200 || response.status === 201 || response.status === 204) {
+        onUpdate();
+        onClose();
+      }
     } catch (error) {
       toast.error("Please enter valid data!", { autoClose: 3000 });
     } finally {
       setLoading(false);
     }
   };
-  
-  
-  const updateBusiness = async () => {
-    const response = await axios.put(`${API_URL}/${business.businessID}`, formData);
-    if (response.status === 200 || response.status === 204) {
-      toast.success("Business updated successfully!", { autoClose: 3000 });
-      return response;
-    }
-  };
-  
-  const addBusiness = async () => {
-    const response = await axios.post(API_URL, formData);
-    if (response.status === 201) {
-      toast.success("Business added successfully!", { autoClose: 3000 });
-      return response;
-    }
-  };
-  
-  const handleApiError = (error) => {
-    if (error.response) {
-      toast.error(error.response.data.message || "Please enter valid data!", { autoClose: 3000 });
-    } else {
-      toast.error("Network error. Please try again!", { autoClose: 3000 });
-    }
-  };
-  
-  
 
   return (
-    <div className="fixed inset-0 flex justify-center items-center bg-gray-800 bg-opacity-50 transition-opacity p-4">
+    <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 backdrop-blur-md p-4">
       <ToastContainer />
-      <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-md">
-        <h2 className="text-2xl font-semibold mb-4">{business ? "Edit" : "Add"} Business</h2>
+      <div className="bg-gradient-to-br from-white to-gray-100 shadow-2xl rounded-xl p-6 w-full max-w-lg">
+        <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+          {business ? "Edit" : "Add"} Business
+        </h2>
 
         {loading ? (
           <Loader />
@@ -106,7 +80,7 @@ const BusinessForm = ({ business, onClose, onUpdate }) => {
             <input
               name="name"
               placeholder="Business Name"
-              className="border p-1 w-full rounded-lg focus:ring-2 focus:ring-blue-500"
+              className="border p-3 w-full rounded-lg focus:ring-2 focus:ring-blue-500 shadow-sm"
               value={formData.name}
               onChange={handleChange}
               required
@@ -114,39 +88,79 @@ const BusinessForm = ({ business, onClose, onUpdate }) => {
 
             <select
               name="category"
-              className="border p-1 w-full rounded-lg focus:ring-2 focus:ring-blue-500"
+              className="border p-3 w-full rounded-lg focus:ring-2 focus:ring-blue-500 shadow-sm"
               value={formData.category}
               onChange={handleChange}
               required
             >
               <option value="">Select Category</option>
               {CATEGORIES.map((cat) => (
-                <option key={cat} value={cat}>{cat}</option>
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
               ))}
             </select>
 
             <textarea
               name="address"
               placeholder="Street Address"
-              className="border p-1 w-full rounded-lg focus:ring-2 focus:ring-blue-500"
+              className="border p-3 w-full rounded-lg focus:ring-2 focus:ring-blue-500 shadow-sm"
               value={formData.address}
               onChange={handleChange}
               required
             />
 
-            <input name="city" placeholder="City" className="border p-1 w-full rounded-lg focus:ring-2 focus:ring-blue-500" value={formData.city} onChange={handleChange} required />
-            <input name="state" placeholder="State" className="border p-1 w-full rounded-lg focus:ring-2 focus:ring-blue-500" value={formData.state} onChange={handleChange} required />
-            <input name="zipCode" placeholder="Zip Code" className="border p-1 w-full rounded-lg focus:ring-2 focus:ring-blue-500" value={formData.zipCode} onChange={handleChange} required />
+            <div className="grid grid-cols-2 gap-4">
+              <input
+                name="city"
+                placeholder="City"
+                className="border p-3 w-full rounded-lg focus:ring-2 focus:ring-blue-500 shadow-sm"
+                value={formData.city}
+                onChange={handleChange}
+                required
+              />
+              <input
+                name="state"
+                placeholder="State"
+                className="border p-3 w-full rounded-lg focus:ring-2 focus:ring-blue-500 shadow-sm"
+                value={formData.state}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-            <input name="phoneNumber" placeholder="Phone Number" className="border p-1 w-full rounded-lg focus:ring-2 focus:ring-blue-500" value={formData.phoneNumber} onChange={handleChange} required />
+            <div className="grid grid-cols-2 gap-4">
+              <input
+                name="zipCode"
+                placeholder="Zip Code"
+                className="border p-3 w-full rounded-lg focus:ring-2 focus:ring-blue-500 shadow-sm"
+                value={formData.zipCode}
+                onChange={handleChange}
+                required
+              />
+              <input
+                name="phoneNumber"
+                placeholder="Phone Number"
+                className="border p-3 w-full rounded-lg focus:ring-2 focus:ring-blue-500 shadow-sm"
+                value={formData.phoneNumber}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-            <input name="website" placeholder="Website (Optional)" className="border p-1 w-full rounded-lg focus:ring-2 focus:ring-blue-500" value={formData.website} onChange={handleChange} />
+            <input
+              name="website"
+              placeholder="Website (Optional)"
+              className="border p-3 w-full rounded-lg focus:ring-2 focus:ring-blue-500 shadow-sm"
+              value={formData.website}
+              onChange={handleChange}
+            />
 
             <input
               type="number"
               name="rating"
               placeholder="Rating (1-5)"
-              className="border p-1 w-full rounded-lg focus:ring-2 focus:ring-blue-500"
+              className="border p-3 w-full rounded-lg focus:ring-2 focus:ring-blue-500 shadow-sm"
               value={formData.rating}
               onChange={handleChange}
               min="1"
@@ -154,9 +168,20 @@ const BusinessForm = ({ business, onClose, onUpdate }) => {
               step="0.1"
             />
 
-            <div className="flex justify-end space-x-2">
-              <button type="submit" className="bg-blue-500 text-white p-1 rounded-lg hover:bg-blue-600 transition">Save</button>
-              <button type="button" onClick={onClose} className="bg-gray-300 text-gray-700 p-1 rounded-lg hover:bg-gray-400 transition">Cancel</button>
+            <div className="flex justify-end space-x-3">
+              <button
+                type="submit"
+                className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-600 transition"
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                onClick={onClose}
+                className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg shadow-md hover:bg-gray-400 transition"
+              >
+                Cancel
+              </button>
             </div>
           </form>
         )}

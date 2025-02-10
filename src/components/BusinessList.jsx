@@ -17,7 +17,7 @@ const BusinessList = ({ onEdit, refresh }) => {
 
   useEffect(() => {
     fetchBusinesses();
-  }, [refresh]); // Re-fetch when `refresh` changes
+  }, [refresh]);
 
   const fetchBusinesses = async () => {
     setLoading(true);
@@ -46,7 +46,7 @@ const BusinessList = ({ onEdit, refresh }) => {
     if (window.confirm("Are you sure you want to delete this business?")) {
       try {
         await axios.delete(`${API_URL}/${id}`);
-        fetchBusinesses(); // Re-fetch businesses after delete
+        fetchBusinesses();
         toast.success("Business deleted successfully!", { autoClose: 3000 });
       } catch (error) {
         toast.error("Error deleting business. Please try again.", { autoClose: 3000 });
@@ -61,7 +61,7 @@ const BusinessList = ({ onEdit, refresh }) => {
       <input
         type="text"
         placeholder="Search by Name, City, or Category"
-        className="p-3 rounded-lg w-full mb-4 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="p-3 rounded-lg w-full mb-4 shadow-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
         value={search}
         onChange={(e) => {
           setSearch(e.target.value);
@@ -73,9 +73,9 @@ const BusinessList = ({ onEdit, refresh }) => {
         <Loader />
       ) : (
         <div className="overflow-x-auto">
-          <table className="min-w-full shadow-md bg-white">
+          <table className="min-w-full shadow-lg bg-white rounded-lg overflow-hidden">
             <thead>
-              <tr className="bg-blue-500 text-white text-sm sm:text-base">
+              <tr className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white text-sm sm:text-base">
                 <th className="p-3 text-left">Name</th>
                 <th className="p-3 text-left">Category</th>
                 <th className="p-3 text-left hidden sm:table-cell">Address</th>
@@ -89,8 +89,8 @@ const BusinessList = ({ onEdit, refresh }) => {
               </tr>
             </thead>
             <tbody>
-              {currentRecords.map((biz) => (
-                <tr key={biz.businessID} className="hover:bg-gray-100 transition">
+              {currentRecords.map((biz, index) => (
+                <tr key={biz.businessID} className={`hover:bg-gray-100 transition ${index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}`}>
                   <td className="p-3">{biz.name}</td>
                   <td className="p-3">{biz.category}</td>
                   <td className="p-3 hidden sm:table-cell">{biz.address}</td>
@@ -105,11 +105,11 @@ const BusinessList = ({ onEdit, refresh }) => {
                   </td>
                   <td className="p-3">{biz.rating || "N/A"}</td>
                   <td className="p-3 flex justify-center gap-2">
-                    <button onClick={() => onEdit(biz)} className="p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
-                      <PencilIcon className="w-4 h-4 sm:w-5 sm:h-5" />
+                    <button onClick={() => onEdit(biz)} className="p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300 shadow-md">
+                      <PencilIcon className="w-5 h-5" />
                     </button>
-                    <button onClick={() => handleDelete(biz.businessID)} className="p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
-                      <TrashIcon className="w-4 h-4 sm:w-5 sm:h-5" />
+                    <button onClick={() => handleDelete(biz.businessID)} className="p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300 shadow-md">
+                      <TrashIcon className="w-5 h-5" />
                     </button>
                   </td>
                 </tr>
