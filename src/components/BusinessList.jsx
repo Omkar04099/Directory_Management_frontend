@@ -13,6 +13,7 @@ const BusinessList = ({ onEdit, refresh }) => {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const recordsPerPage = 10;
 
   useEffect(() => {
@@ -30,14 +31,32 @@ const BusinessList = ({ onEdit, refresh }) => {
     setLoading(false);
   };
 
-  const filteredBusinesses = businesses.filter((biz) =>
+  const handleSort = (key) => {
+    let direction = "asc";
+    if (sortConfig.key === key && sortConfig.direction === "asc") {
+      direction = "desc";
+    }
+    setSortConfig({ key, direction });
+  };
+
+  const sortedBusinesses = [...businesses].sort((a, b) => {
+    if (!sortConfig.key) return 0;
+    if (a[sortConfig.key] < b[sortConfig.key]) {
+      return sortConfig.direction === "asc" ? -1 : 1;
+    }
+    if (a[sortConfig.key] > b[sortConfig.key]) {
+      return sortConfig.direction === "asc" ? 1 : -1;
+    }
+    return 0;
+  });
+
+  const filteredBusinesses = sortedBusinesses.filter((biz) =>
     ["name", "city", "category"].some((key) =>
       biz[key]?.toLowerCase().includes(search.toLowerCase())
     )
   );
 
   const totalRecords = filteredBusinesses.length;
-  const totalPages = Math.ceil(totalRecords / recordsPerPage);
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
   const currentRecords = filteredBusinesses.slice(
@@ -81,10 +100,29 @@ const BusinessList = ({ onEdit, refresh }) => {
           <table className="min-w-full shadow-lg bg-gray-800 text-white rounded-lg overflow-hidden">
             <thead>
               <tr className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white text-sm sm:text-base">
-                <th className="p-3 text-left">Name</th>
+                <th
+                  className="p-3 text-left cursor-pointer hover:opacity-80"
+                  title="Sort by Name"
+                  onClick={() => handleSort("name")}
+                >
+                  <button className="bg-gray-700 px-3 py-1 cursor-pointer rounded-md hover:bg-gray-600 transition">
+                    Name {sortConfig.key === "name" && (sortConfig.direction === "asc" ? "↑" : "↓")}
+                  </button>
+                </th>
+
                 <th className="p-3 text-left">Category</th>
                 <th className="p-3 text-left hidden sm:table-cell">Address</th>
-                <th className="p-3 text-left">City</th>
+
+                <th
+                  className="p-3 text-left cursor-pointer hover:opacity-80"
+                  title="Sort by City"
+                  onClick={() => handleSort("city")}
+                >
+                  <button className="bg-gray-700 px-3 py-1 cursor-pointer rounded-md hover:bg-gray-600 transition">
+                    City {sortConfig.key === "city" && (sortConfig.direction === "asc" ? "↑" : "↓")}
+                  </button>
+                </th>
+
                 <th className="p-3 text-left hidden md:table-cell">State</th>
                 <th className="p-3 text-left hidden lg:table-cell">Zip</th>
                 <th className="p-3 text-left">Phone</th>
@@ -93,11 +131,12 @@ const BusinessList = ({ onEdit, refresh }) => {
                 <th className="p-3 text-center">Actions</th>
               </tr>
             </thead>
+
             <tbody>
-              {currentRecords.map((biz, index) => (
+              {currentRecords.map((biz) => (
                 <tr
                   key={biz.businessID}
-                  className={`hover:bg-gray-600 transition bg-gray-700`}
+                  className="hover:bg-gray-600 transition bg-gray-700"
                 >
                   <td className="p-3">{biz.name}</td>
                   <td className="p-3">{biz.category}</td>
@@ -121,12 +160,15 @@ const BusinessList = ({ onEdit, refresh }) => {
                     <button
                       onClick={() => onEdit(biz)}
                       className="p-2 bg-blue-600 cursor-pointer text-white rounded-lg hover:bg-blue-800 transition duration-300 shadow-md"
+                      title="Edit Business"
                     >
                       <PencilIcon className="w-5 h-5" />
                     </button>
+
                     <button
                       onClick={() => handleDelete(biz.businessID)}
                       className="p-2 bg-red-600 cursor-pointer text-white rounded-lg hover:bg-red-800 transition duration-300 shadow-md"
+                      title="Delete Business"
                     >
                       <TrashIcon className="w-5 h-5" />
                     </button>
