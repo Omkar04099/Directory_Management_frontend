@@ -2,8 +2,6 @@
 
 A sleek and modern **Business Directory** web application built with **React**, **TailwindCSS**, and **Framer Motion** for smooth animations. This project allows users to **view, add, edit, and delete businesses** in a well-structured, user-friendly interface.
 
-![Business Directory Screenshot](https://via.placeholder.com/1200x600?text=Business+Directory+App) <!-- Replace with actual screenshot -->
-
 ---
 
 ## 🚀 Features
@@ -114,10 +112,9 @@ GET	/api/business/{id}	Fetch a single business
 POST	/api/business	Add a new business
 PUT	/api/business/{id}	Update an existing business
 DELETE	/api/business/{id}	Remove a business
+
 📂 Project Structure
-css
-Copy
-Edit
+
 📦 business-directory-frontend
 ├── 📂 src
 │   ├── 📂 components
@@ -130,28 +127,10 @@ Edit
 ├── 📜 tailwind.config.js
 ├── 📜 package.json
 ├── 📜 README.md
-📷 Screenshots
-Home Page	Add Business	Edit Business
+
 🚀 Deployment
 You can deploy this React app using:
-
-Vercel:
-bash
-Copy
-Edit
-npm run build
-vercel deploy
-Netlify:
-bash
-Copy
-Edit
-npm run build
-netlify deploy
-For production, ensure that the API URL in src/config.js is updated to the deployed backend.
-
-🔗 Backend API
-The API is built with .NET Core and SQL Server. You can find the backend repository here:
-👉 Business Directory Backend
+npm run dev
 
 💡 Troubleshooting
 🔹 API Not Working?
@@ -160,19 +139,11 @@ Verify the correct API URL in src/config.js.
 Check browser console (F12 > Console) for errors.
 🔹 Styles Not Loading?
 Restart the dev server:
-bash
-Copy
-Edit
 npm run dev
 Ensure TailwindCSS is correctly installed.
 🔹 "Module Not Found" Errors?
 Run:
-bash
-Copy
-Edit
 npm install
-📜 License
-This project is licensed under the MIT License.
 
 ⭐ Support & Contributions
 🔹 Found an issue? Report it.
