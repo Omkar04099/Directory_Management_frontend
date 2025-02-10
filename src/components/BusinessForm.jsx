@@ -68,8 +68,8 @@ const BusinessForm = ({ business, onClose, onUpdate }) => {
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 backdrop-blur-md p-4">
       <ToastContainer />
-      <div className="bg-gradient-to-br from-white to-gray-100 shadow-2xl rounded-xl p-6 w-full max-w-lg">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+      <div className="bg-gray-800 text-white shadow-2xl rounded-xl p-6 w-full max-w-lg">
+        <h2 className="text-2xl font-semibold text-gray-200 mb-4">
           {business ? "Edit" : "Add"} Business
         </h2>
 
@@ -80,7 +80,7 @@ const BusinessForm = ({ business, onClose, onUpdate }) => {
             <input
               name="name"
               placeholder="Business Name"
-              className="border p-3 w-full rounded-lg focus:ring-2 focus:ring-blue-500 shadow-sm"
+              className="border p-3 w-full rounded-lg bg-gray-700 text-white focus:ring-2 focus:ring-gray-500 shadow-sm"
               value={formData.name}
               onChange={handleChange}
               required
@@ -88,14 +88,14 @@ const BusinessForm = ({ business, onClose, onUpdate }) => {
 
             <select
               name="category"
-              className="border p-3 w-full rounded-lg focus:ring-2 focus:ring-blue-500 shadow-sm"
+              className="border p-3 w-full rounded-lg bg-gray-700 text-white focus:ring-2 focus:ring-gray-500 shadow-sm"
               value={formData.category}
               onChange={handleChange}
               required
             >
               <option value="">Select Category</option>
               {CATEGORIES.map((cat) => (
-                <option key={cat} value={cat}>
+                <option key={cat} value={cat} className="bg-gray-800">
                   {cat}
                 </option>
               ))}
@@ -104,7 +104,7 @@ const BusinessForm = ({ business, onClose, onUpdate }) => {
             <textarea
               name="address"
               placeholder="Street Address"
-              className="border p-3 w-full rounded-lg focus:ring-2 focus:ring-blue-500 shadow-sm"
+              className="border p-3 w-full rounded-lg bg-gray-700 text-white focus:ring-2 focus:ring-gray-500 shadow-sm"
               value={formData.address}
               onChange={handleChange}
               required
@@ -114,7 +114,7 @@ const BusinessForm = ({ business, onClose, onUpdate }) => {
               <input
                 name="city"
                 placeholder="City"
-                className="border p-3 w-full rounded-lg focus:ring-2 focus:ring-blue-500 shadow-sm"
+                className="border p-3 w-full rounded-lg bg-gray-700 text-white focus:ring-2 focus:ring-gray-500 shadow-sm"
                 value={formData.city}
                 onChange={handleChange}
                 required
@@ -122,7 +122,7 @@ const BusinessForm = ({ business, onClose, onUpdate }) => {
               <input
                 name="state"
                 placeholder="State"
-                className="border p-3 w-full rounded-lg focus:ring-2 focus:ring-blue-500 shadow-sm"
+                className="border p-3 w-full rounded-lg bg-gray-700 text-white focus:ring-2 focus:ring-gray-500 shadow-sm"
                 value={formData.state}
                 onChange={handleChange}
                 required
@@ -133,7 +133,7 @@ const BusinessForm = ({ business, onClose, onUpdate }) => {
               <input
                 name="zipCode"
                 placeholder="Zip Code"
-                className="border p-3 w-full rounded-lg focus:ring-2 focus:ring-blue-500 shadow-sm"
+                className="border p-3 w-full rounded-lg bg-gray-700 text-white focus:ring-2 focus:ring-gray-500 shadow-sm"
                 value={formData.zipCode}
                 onChange={handleChange}
                 required
@@ -141,7 +141,7 @@ const BusinessForm = ({ business, onClose, onUpdate }) => {
               <input
                 name="phoneNumber"
                 placeholder="Phone Number"
-                className="border p-3 w-full rounded-lg focus:ring-2 focus:ring-blue-500 shadow-sm"
+                className="border p-3 w-full rounded-lg bg-gray-700 text-white focus:ring-2 focus:ring-gray-500 shadow-sm"
                 value={formData.phoneNumber}
                 onChange={handleChange}
                 required
@@ -151,7 +151,7 @@ const BusinessForm = ({ business, onClose, onUpdate }) => {
             <input
               name="website"
               placeholder="Website (Optional)"
-              className="border p-3 w-full rounded-lg focus:ring-2 focus:ring-blue-500 shadow-sm"
+              className="border p-3 w-full rounded-lg bg-gray-700 text-white focus:ring-2 focus:ring-gray-500 shadow-sm"
               value={formData.website}
               onChange={handleChange}
             />
@@ -160,7 +160,7 @@ const BusinessForm = ({ business, onClose, onUpdate }) => {
               type="number"
               name="rating"
               placeholder="Rating (1-5)"
-              className="border p-3 w-full rounded-lg focus:ring-2 focus:ring-blue-500 shadow-sm"
+              className="border p-3 w-full rounded-lg bg-gray-700 text-white focus:ring-2 focus:ring-gray-500 shadow-sm"
               value={formData.rating}
               onChange={handleChange}
               min="1"
@@ -171,14 +171,14 @@ const BusinessForm = ({ business, onClose, onUpdate }) => {
             <div className="flex justify-end space-x-3">
               <button
                 type="submit"
-                className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-600 transition"
+                className="bg-gray-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-gray-500 transition"
               >
                 Save
               </button>
               <button
                 type="button"
                 onClick={onClose}
-                className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg shadow-md hover:bg-gray-400 transition"
+                className="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-gray-400 transition"
               >
                 Cancel
               </button>

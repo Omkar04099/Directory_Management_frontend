@@ -14,13 +14,13 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <div className="mx-auto bg-white p-6 rounded-lg shadow-md">
+    <div className="min-h-screen bg-gray-800 p-6">
+      <div className="mx-auto  p-6 rounded-lg shadow-lg text-white">
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-2xl font-semibold">Business Directory</h1>
           <button 
             onClick={() => { setSelectedBusiness(null); setShowForm(true); }} 
-            className="bg-green-500 text-white px-4 py-2 rounded-lg shadow hover:bg-green-600 transition"
+            className="bg-gray-700 text-white px-4 py-2 rounded-lg shadow cursor-pointer hover:bg-gray-600 transition"
           >
             + Add Business
           </button>
@@ -36,7 +36,7 @@ function App() {
               exit={{ opacity: 0 }}
             >
               <motion.div 
-                className="bg-white p-6 rounded-lg shadow-lg"
+                className="bg-gray-100 p-6 rounded-lg shadow-lg"
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.8, opacity: 0 }}

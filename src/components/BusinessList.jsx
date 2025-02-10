@@ -40,7 +40,10 @@ const BusinessList = ({ onEdit, refresh }) => {
   const totalPages = Math.ceil(totalRecords / recordsPerPage);
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-  const currentRecords = filteredBusinesses.slice(indexOfFirstRecord, indexOfLastRecord);
+  const currentRecords = filteredBusinesses.slice(
+    indexOfFirstRecord,
+    indexOfLastRecord
+  );
 
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this business?")) {
@@ -49,7 +52,9 @@ const BusinessList = ({ onEdit, refresh }) => {
         fetchBusinesses();
         toast.success("Business deleted successfully!", { autoClose: 3000 });
       } catch (error) {
-        toast.error("Error deleting business. Please try again.", { autoClose: 3000 });
+        toast.error("Error deleting business. Please try again.", {
+          autoClose: 3000,
+        });
       }
     }
   };
@@ -61,7 +66,7 @@ const BusinessList = ({ onEdit, refresh }) => {
       <input
         type="text"
         placeholder="Search by Name, City, or Category"
-        className="p-3 rounded-lg w-full mb-4 shadow-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+        className="p-3 rounded-lg w-full mb-4 shadow-md border border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all duration-300"
         value={search}
         onChange={(e) => {
           setSearch(e.target.value);
@@ -73,7 +78,7 @@ const BusinessList = ({ onEdit, refresh }) => {
         <Loader />
       ) : (
         <div className="overflow-x-auto">
-          <table className="min-w-full shadow-lg bg-white rounded-lg overflow-hidden">
+          <table className="min-w-full shadow-lg bg-gray-800 text-white rounded-lg overflow-hidden">
             <thead>
               <tr className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white text-sm sm:text-base">
                 <th className="p-3 text-left">Name</th>
@@ -90,7 +95,10 @@ const BusinessList = ({ onEdit, refresh }) => {
             </thead>
             <tbody>
               {currentRecords.map((biz, index) => (
-                <tr key={biz.businessID} className={`hover:bg-gray-100 transition ${index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}`}>
+                <tr
+                  key={biz.businessID}
+                  className={`hover:bg-gray-600 transition bg-gray-700`}
+                >
                   <td className="p-3">{biz.name}</td>
                   <td className="p-3">{biz.category}</td>
                   <td className="p-3 hidden sm:table-cell">{biz.address}</td>
@@ -99,16 +107,27 @@ const BusinessList = ({ onEdit, refresh }) => {
                   <td className="p-3 hidden lg:table-cell">{biz.zipCode}</td>
                   <td className="p-3">{biz.phoneNumber}</td>
                   <td className="p-3 hidden xl:table-cell">
-                    <a href={biz.website} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+                    <a
+                      href={biz.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-300 hover:underline"
+                    >
                       {biz.website ? "Visit" : "N/A"}
                     </a>
                   </td>
                   <td className="p-3">{biz.rating || "N/A"}</td>
                   <td className="p-3 flex justify-center gap-2">
-                    <button onClick={() => onEdit(biz)} className="p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300 shadow-md">
+                    <button
+                      onClick={() => onEdit(biz)}
+                      className="p-2 bg-blue-600 cursor-pointer text-white rounded-lg hover:bg-blue-800 transition duration-300 shadow-md"
+                    >
                       <PencilIcon className="w-5 h-5" />
                     </button>
-                    <button onClick={() => handleDelete(biz.businessID)} className="p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300 shadow-md">
+                    <button
+                      onClick={() => handleDelete(biz.businessID)}
+                      className="p-2 bg-red-600 cursor-pointer text-white rounded-lg hover:bg-red-800 transition duration-300 shadow-md"
+                    >
                       <TrashIcon className="w-5 h-5" />
                     </button>
                   </td>
