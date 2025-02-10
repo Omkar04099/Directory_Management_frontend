@@ -8,7 +8,7 @@ import Loader from "./Loader";
 
 const API_URL = "http://localhost:5290/api/business";
 
-const BusinessList = ({ onEdit }) => {
+const BusinessList = ({ onEdit, refresh }) => {
   const [businesses, setBusinesses] = useState([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
@@ -16,18 +16,19 @@ const BusinessList = ({ onEdit }) => {
   const recordsPerPage = 10;
 
   useEffect(() => {
+    fetchBusinesses();
+  }, [refresh]); // Re-fetch when `refresh` changes
+
+  const fetchBusinesses = async () => {
     setLoading(true);
-    axios
-      .get(API_URL)
-      .then((response) => {
-        setBusinesses(response.data);
-        setLoading(false);
-      })
-      .catch(() => {
-        toast.error("Error fetching businesses", { autoClose: 3000 });
-        setLoading(false);
-      });
-  }, []);
+    try {
+      const response = await axios.get(API_URL);
+      setBusinesses(response.data);
+    } catch (error) {
+      toast.error("Error fetching businesses", { autoClose: 3000 });
+    }
+    setLoading(false);
+  };
 
   const filteredBusinesses = businesses.filter((biz) =>
     ["name", "city", "category"].some((key) =>
@@ -45,7 +46,7 @@ const BusinessList = ({ onEdit }) => {
     if (window.confirm("Are you sure you want to delete this business?")) {
       try {
         await axios.delete(`${API_URL}/${id}`);
-        setBusinesses(businesses.filter((biz) => biz.businessID !== id));
+        fetchBusinesses(); // Re-fetch businesses after delete
         toast.success("Business deleted successfully!", { autoClose: 3000 });
       } catch (error) {
         toast.error("Error deleting business. Please try again.", { autoClose: 3000 });
@@ -64,7 +65,7 @@ const BusinessList = ({ onEdit }) => {
         value={search}
         onChange={(e) => {
           setSearch(e.target.value);
-          setCurrentPage(1); 
+          setCurrentPage(1);
         }}
       />
 

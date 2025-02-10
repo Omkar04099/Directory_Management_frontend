@@ -17,7 +17,7 @@ const CATEGORIES = [
   "Real Estate",
 ];
 
-const BusinessForm = ({ business, onClose, refresh }) => {
+const BusinessForm = ({ business, onClose, onUpdate }) => {
   const [formData, setFormData] = useState({
     name: "",
     category: "",
@@ -58,14 +58,39 @@ const BusinessForm = ({ business, onClose, refresh }) => {
         }
       }
   
-      onClose();
-      setTimeout(() => window.location.reload(), 1000);
+      onUpdate();
     } catch (error) {
-      toast.error("Please enter valid data!.", { autoClose: 3000 });
+      toast.error("Please enter valid data!", { autoClose: 3000 });
     } finally {
       setLoading(false);
     }
   };
+  
+  
+  const updateBusiness = async () => {
+    const response = await axios.put(`${API_URL}/${business.businessID}`, formData);
+    if (response.status === 200 || response.status === 204) {
+      toast.success("Business updated successfully!", { autoClose: 3000 });
+      return response;
+    }
+  };
+  
+  const addBusiness = async () => {
+    const response = await axios.post(API_URL, formData);
+    if (response.status === 201) {
+      toast.success("Business added successfully!", { autoClose: 3000 });
+      return response;
+    }
+  };
+  
+  const handleApiError = (error) => {
+    if (error.response) {
+      toast.error(error.response.data.message || "Please enter valid data!", { autoClose: 3000 });
+    } else {
+      toast.error("Network error. Please try again!", { autoClose: 3000 });
+    }
+  };
+  
   
 
   return (

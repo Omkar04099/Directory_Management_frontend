@@ -6,6 +6,12 @@ import BusinessForm from "./components/BusinessForm";
 function App() {
   const [selectedBusiness, setSelectedBusiness] = useState(null);
   const [showForm, setShowForm] = useState(false);
+  const [refreshList, setRefreshList] = useState(false);
+
+  const handleUpdate = () => {
+    setRefreshList((prev) => !prev);
+    setShowForm(false);
+  };
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
@@ -13,13 +19,13 @@ function App() {
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-2xl font-semibold">Business Directory</h1>
           <button 
-            onClick={() => setShowForm(true)} 
+            onClick={() => { setSelectedBusiness(null); setShowForm(true); }} 
             className="bg-green-500 text-white px-4 py-2 rounded-lg shadow hover:bg-green-600 transition"
           >
             + Add Business
           </button>
         </div>
-        <BusinessList onEdit={(biz) => { setSelectedBusiness(biz); setShowForm(true); }} />
+        <BusinessList onEdit={(biz) => { setSelectedBusiness(biz); setShowForm(true); }} refresh={refreshList} />
         
         <AnimatePresence>
           {showForm && (
@@ -36,7 +42,11 @@ function App() {
                 exit={{ scale: 0.8, opacity: 0 }}
                 transition={{ duration: 0.3 }}
               >
-                <BusinessForm business={selectedBusiness} onClose={() => setShowForm(false)} />
+                <BusinessForm 
+                  business={selectedBusiness} 
+                  onClose={() => setShowForm(false)} 
+                  onUpdate={handleUpdate} 
+                />
               </motion.div>
             </motion.div>
           )}
