@@ -32,7 +32,6 @@ const BusinessForm = ({ business, onClose, refresh }) => {
 
   const [loading, setLoading] = useState(false);
 
-  // ✅ Populate form if editing
   useEffect(() => {
     if (business) setFormData(business);
   }, [business]);

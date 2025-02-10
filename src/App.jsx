@@ -21,7 +21,6 @@ function App() {
         </div>
         <BusinessList onEdit={(biz) => { setSelectedBusiness(biz); setShowForm(true); }} />
         
-        {/* Animated Form Popup */}
         <AnimatePresence>
           {showForm && (
             <motion.div 

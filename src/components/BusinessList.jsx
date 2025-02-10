@@ -29,14 +29,12 @@ const BusinessList = ({ onEdit }) => {
       });
   }, []);
 
-  // ✅ Filter businesses based on search
   const filteredBusinesses = businesses.filter((biz) =>
     ["name", "city", "category"].some((key) =>
       biz[key]?.toLowerCase().includes(search.toLowerCase())
     )
   );
 
-  // ✅ Pagination Logic
   const totalRecords = filteredBusinesses.length;
   const totalPages = Math.ceil(totalRecords / recordsPerPage);
   const indexOfLastRecord = currentPage * recordsPerPage;
@@ -59,7 +57,6 @@ const BusinessList = ({ onEdit }) => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
       <ToastContainer />
 
-      {/* Search Input */}
       <input
         type="text"
         placeholder="Search by Name, City, or Category"
@@ -67,7 +64,7 @@ const BusinessList = ({ onEdit }) => {
         value={search}
         onChange={(e) => {
           setSearch(e.target.value);
-          setCurrentPage(1); // Reset to first page on search
+          setCurrentPage(1); 
         }}
       />
 
@@ -121,7 +118,6 @@ const BusinessList = ({ onEdit }) => {
         </div>
       )}
 
-      {/* ✅ Updated Pagination Component */}
       <Pagination
         totalRecords={totalRecords}
         recordsPerPage={recordsPerPage}
